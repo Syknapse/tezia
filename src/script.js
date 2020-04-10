@@ -1,25 +1,39 @@
 const chromaticScale = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
 const NUMBER_OF_NOTES = 7
-let randomScale = () => chromaticScale.sort(() => 0.5 - Math.random()).slice(0, NUMBER_OF_NOTES)
-console.log('random scale: ', randomScale())
-const C_major = ['C', 'D', 'E', 'F', 'G', 'A', 'B']
-// const shuffled = shuffle([...C_major])
-const shuffled = [...C_major]
-// const shuffled = [...randomScale()]
+const SCALE_REPETITIONS = 2 // probably 7
+// const C_major = ['C', 'D', 'E', 'F', 'G', 'A', 'B']
+let currentScale = []
+let shuffled = []
 const sound = 0
-// const note = 'A'
 const octave = 3
 const duration = 1
 let i = 0
 let b = 0
+let c = 0
+let timeoutClearA, timeoutClearB, timeoutClearC
 
 const startLoop = () => {
-   setTimeout(() => {
-       const note = C_major[i]
-       console.log('+++++: ', note)
+   timeoutClearA = setTimeout(() => {
+       const note = currentScale[i]
+       console.log('A+++++: ', note)
     Synth.play(sound, note, octave, duration)
-    i < C_major.length - 1 ? i++ : i = 0
+    i < NUMBER_OF_NOTES - 1 ? i++ : i = 0
     startLoop()
+   }, 1000)
+}
+
+const startLoopB = () => {
+   timeoutClearB = setTimeout(() => {
+       const note = shuffled[b]
+       console.log('B------: ', note)
+    Synth.play(sound, note, octave, duration)
+   if ( b < NUMBER_OF_NOTES - 1) {
+      b++
+   } else {
+      reShuffle()
+      return
+   }
+    startLoopB()
    }, 1000)
 }
 
@@ -32,15 +46,7 @@ const startLoop = () => {
     startLoopB()
    }, 1000)
 } */
-const startLoopB = () => {
-   setTimeout(() => {
-       const note = shuffled[b]
-       console.log('------: ', note)
-    Synth.play(sound, note, octave, duration)
-    b < C_major.length - 1 ? b++ : reShuffle()
-    startLoopB()
-   }, 1000)
-}
+
 /* const startLoopB = (scale, count) => {
    console.log('count: ', count)
    setTimeout(() => {
@@ -53,11 +59,22 @@ const startLoopB = () => {
 } */
 
 const reShuffle = () => {
-   // i = 0
    b = 0
+   c++
+   console.log('c: ', c)
+   if (c === SCALE_REPETITIONS) {
+      console.log('REshuffle INIT --->')
+      init()
+      return
+   }
    shuffle(shuffled)
+   clearTimeout(timeoutClearB)
+   startLoopB()
    console.log('REshuffled', shuffled)
 }
+
+let getRandomScale = () => chromaticScale.sort(() => 0.5 - Math.random()).slice(0, NUMBER_OF_NOTES)
+
 
 const shuffle = array => {
    var currentIndex = array.length, temporaryValue, randomIndex;
@@ -78,12 +95,32 @@ const shuffle = array => {
    return array;
  }
 
-// console.log('C_major', C_major)
-shuffle(shuffled)
-console.log('C_major', C_major)
-console.log('shuffled', shuffled)
-console.log('i, b', i, b)
-startLoop()
-setTimeout(() => startLoopB(), 500)
-// startLoopB(C_major, i)
-// setTimeout(() => startLoopB(shuffled, b), 500)
+const init = () => {
+   console.log('-----init-------', timeoutClearA, timeoutClearB, timeoutClearC)
+   stop()
+   currentScale = getRandomScale()
+   shuffled = [...currentScale]
+   shuffle(shuffled)
+   console.log('currentScale', currentScale)
+   console.log('shuffled', shuffled)
+   startLoop()
+   timeoutClearC = setTimeout(() => startLoopB(), 500)
+}
+
+const stop = () => {
+   clearTimeout(timeoutClearA)
+   clearTimeout(timeoutClearB)
+   clearTimeout(timeoutClearC)
+   i = 0
+   b = 0
+   c = 0
+}
+
+const button = document.getElementById('start')
+let on = false
+const toggleMusic = () => {
+   on = !on
+   console.log('toggle', on)
+   on ? init() : stop()
+}
+button.addEventListener('click', toggleMusic)
