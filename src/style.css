@@ -1,0 +1,10 @@
+.container {
+    display: flex;
+}
+
+.loops {
+    height: 300px;
+    width: 300px;
+    border: 1px solid;
+    transition: 0.2s
+}
