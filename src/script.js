@@ -1,119 +1,85 @@
-const chromaticScale = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
-const NUMBER_OF_NOTES = 7
-const SCALE_REPETITIONS = 2 // probably 7
-// const C_major = ['C', 'D', 'E', 'F', 'G', 'A', 'B']
-let currentScale = []
-let shuffled = []
+const C_major = ['C', 'D', 'E', 'F', 'G', 'A', 'B']
 const sound = 0
 const octave = 3
 const duration = 1
-let i = 0
+let a = 0
 let b = 0
-let c = 0
-let timeoutClearA, timeoutClearB, timeoutClearC
+let interval = 1
+let round = 1
+let timeoutClearA, timeoutClearB
+const TEMPO = 700
 
-const startLoop = () => {
+const colors = {
+   C: '#ef7d7d',
+   D: '#7def96',
+   E: '#7d8bef',
+   F: '#e37def',
+   G: '#7dcaef',
+   A: '#efeb7d',
+   B: '#efbc7d',
+}
+
+const startLoop = scale => {
    timeoutClearA = setTimeout(() => {
-       const note = currentScale[i]
-       console.log('A+++++: ', note)
-    Synth.play(sound, note, octave, duration)
-    i < NUMBER_OF_NOTES - 1 ? i++ : i = 0
-    startLoop()
-   }, 1000)
+      const note = scale[a]
+      console.log('A+++++: ', note)
+      Synth.play(sound, note, octave, duration)
+      applyVisuals('loop-a', note)
+      a < scale.length - 1 ? a++ : a = 0
+      startLoop(scale)
+   }, TEMPO)
 }
 
-const startLoopB = () => {
+// b is the note to play. increase by one until we reach the end of the scale.
+// interval is the note interval from which to start
+// When the b note reaches the end of the scale we repeat starting from the interval and indicate a new round
+// The number of repetitions we want on each interval is in inverse relation to the length of the scale. (there are 7 notes, if interval is 3 the repetitions are 4 totaling 7)
+// When we have had the amount of rounds the repetitions indicate, we push one interval up (interval++) and reset the round
+// Problems to solve:
+// check the repetitions are right
+
+const startLoopB = scale => {
    timeoutClearB = setTimeout(() => {
-       const note = shuffled[b]
-       console.log('B------: ', note)
-    Synth.play(sound, note, octave, duration)
-   if ( b < NUMBER_OF_NOTES - 1) {
-      b++
-   } else {
-      reShuffle()
-      return
-   }
-    startLoopB()
-   }, 1000)
+      const note = scale[b]
+      console.log('B------: ', note)
+      Synth.play(sound, note, octave, duration)
+      applyVisuals('loop-b', note)
+      if (b < scale.length - 1) {
+         b++
+      } else {
+         b = interval
+         round++
+      }
+      const repetitions = scale.length - interval 
+      if (repetitions === round) {
+         interval === 6 ? interval = 1 : interval++
+         round = 1
+      }
+      startLoopB(scale)
+   }, TEMPO)
 }
 
-/* const startLoopB = () => {
-   setTimeout(() => {
-       const note = C_major[b]
-       console.log('++note: ', note)
-    Synth.play(sound, note, octave, duration)
-    b < C_major.length - 1 ? b++ : b = 3
-    startLoopB()
-   }, 1000)
-} */
-
-/* const startLoopB = (scale, count) => {
-   console.log('count: ', count)
-   setTimeout(() => {
-       const note = scale[count]
-       console.log('------: ', count, note)
-    Synth.play(sound, note, octave, duration)
-    count < C_major.length - 1 ? count++ : reShuffle()
-    startLoopB()
-   }, 1000)
-} */
-
-const reShuffle = () => {
-   b = 0
-   c++
-   console.log('c: ', c)
-   if (c === SCALE_REPETITIONS) {
-      console.log('REshuffle INIT --->')
-      init()
-      return
-   }
-   shuffle(shuffled)
-   clearTimeout(timeoutClearB)
-   startLoopB()
-   console.log('REshuffled', shuffled)
+const applyVisuals = (id, note) => {
+   const el = document.getElementById(id)
+   el.style.backgroundColor = colors[note]
+   el.innerText = note
 }
-
-let getRandomScale = () => chromaticScale.sort(() => 0.5 - Math.random()).slice(0, NUMBER_OF_NOTES)
-
-
-const shuffle = array => {
-   var currentIndex = array.length, temporaryValue, randomIndex;
- 
-   // While there remain elements to shuffle...
-   while (0 !== currentIndex) {
- 
-     // Pick a remaining element...
-     randomIndex = Math.floor(Math.random() * currentIndex);
-     currentIndex -= 1;
- 
-     // And swap it with the current element.
-     temporaryValue = array[currentIndex];
-     array[currentIndex] = array[randomIndex];
-     array[randomIndex] = temporaryValue;
-   }
- 
-   return array;
- }
 
 const init = () => {
-   console.log('-----init-------', timeoutClearA, timeoutClearB, timeoutClearC)
+   console.log('-----init-------')
+   Synth.setVolume(0.50)
+   Synth.play(sound, 'C', '5', '4')
    stop()
-   currentScale = getRandomScale()
-   shuffled = [...currentScale]
-   shuffle(shuffled)
-   console.log('currentScale', currentScale)
-   console.log('shuffled', shuffled)
-   startLoop()
-   timeoutClearC = setTimeout(() => startLoopB(), 500)
+   startLoop(C_major)
+   startLoopB(C_major)
 }
 
 const stop = () => {
    clearTimeout(timeoutClearA)
    clearTimeout(timeoutClearB)
-   clearTimeout(timeoutClearC)
-   i = 0
+   a = 0
    b = 0
-   c = 0
+   interval = 1
 }
 
 const button = document.getElementById('start')
