@@ -1,30 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <meta name="description" content="JS meets minimalism. Music experiments with colors.">
-    <meta name="keywords" content="music, minimalism, music code, synesthesia, colors, experimental music">
-    <meta name="author" content="Syk Houdeib">
+  <meta name="description" content="JS meets minimalism. Music experiments with colors.">
+  <meta name="keywords" content="music, minimalism, music code, synesthesia, colors, experimental music">
+  <meta name="author" content="Syk Houdeib">
 
-    <title>Tezia</title>
+  <title>Tezia</title>
 
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" type="text/css" href="src/style.css">
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" type="text/css" href="src/style.css">
 </head>
+
 <body>
-    <div class="control-panel">
-        <button id="start">start/stop</button>
+  <div class="container">
+    <div id="control-panel">
+      <button id="start">Start/Stop</button>
+      <div id="info-panel"></div>
     </div>
-
-    <div class="container">
-        <section id="loop-a" class="loops"></section>
-        <section id="loop-b" class="loops"></section>
+  
+    <div class="visuals-container">
+      <section id="loop-a" class="loops"></section>
+      <section id="loop-b" class="loops"></section>
     </div>
+  </div>
 
-    <script src="src/audiosynth.js"></script>
-    <script src="src/index.js" type="module"></script>
+  <script src="src/audiosynth.js"></script>
+  <script src="src/index.js" type="module"></script>
 </body>
+
 </html>

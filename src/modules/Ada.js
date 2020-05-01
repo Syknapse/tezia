@@ -1,6 +1,6 @@
 import major from '../_res/scales/major.js'
 import hipsterPastel from '../_res/colors/hipster-pastel.js'
-import shuffleArray from '../utils/shuffleArray.js'
+import { applyVisuals, updateInfoPanel, displayInfoPanel, shuffleArray } from '../utils/index.js'
 
 // Current scale is the scale we will be looping over. We get this by selecting a random key from the scales, then randomising the notes of the scale.
 // a & b indicate the zero index position of the note to be played in the scale array. It increases by one until we reach the end of the scale.
@@ -25,6 +25,17 @@ const Ada = {
     // The number of repetitions loop A does before loop B changes interval
     return this.currentScale.length - this.interval
   },
+  info: {},
+  initialInfo() {
+    return {
+      'note-A': '',
+      'note-B': '',
+      cycle: this.cycle,
+      interval: 0, 
+      repetitions: this.repetitions(),
+      scale: this.currentScale
+    }
+  },
   timeoutClearA: null,
   timeoutClearB: null,
   TEMPO: 500,
@@ -35,7 +46,16 @@ const Ada = {
     this.timeoutClearA = setTimeout(() => {
       const note = this.currentScale[this.a]
       Synth.play(this.sound, note, this.octave, this.duration)
-      this.applyVisuals('loop-a', note)
+      applyVisuals({ id: 'loop-a', note, colors: this.colors })
+      this.info = {
+        ...this.info,
+        'note-A': note,
+        cycle: this.cycle,
+        interval: this.interval + 1, // Add one to get non-zero based musical interval
+        repetitions: this.repetitions(),
+        scale: this.currentScale
+      }
+      if (displayInfoPanel) updateInfoPanel(this.info)
       if (this.a < this.currentScale.length - 1) {
         this.a++
       } else {
@@ -50,7 +70,12 @@ const Ada = {
     this.timeoutClearB = setTimeout(() => {
       const note = this.currentScale[this.b]
       Synth.play(this.sound, note, this.octave, this.duration)
-      this.applyVisuals('loop-b', note)
+      applyVisuals({ id: 'loop-b', note, colors: this.colors })
+      this.info = {
+        ...this.info,
+        'note-B': note,
+      }
+      if (displayInfoPanel) updateInfoPanel(this.info)
       this.b < this.currentScale.length - 1 ? this.b++ : this.b = this.interval
       if (this.cycle > this.repetitions()) {
         if (this.interval === 6) {
@@ -63,12 +88,6 @@ const Ada = {
       }
       this.startLoopB()
     }, this.TEMPO)
-  },
-
-  applyVisuals(id, note) {
-    const el = document.getElementById(id)
-    el.style.backgroundColor = this.colors[note]
-    el.innerText = note
   },
 
   getRandomScale() {
@@ -84,7 +103,7 @@ const Ada = {
     Synth.setVolume(0.50)
     this.startLoopA()
     this.startLoopB()
- },
+  },
 
   stop() {
     clearTimeout(this.timeoutClearA)

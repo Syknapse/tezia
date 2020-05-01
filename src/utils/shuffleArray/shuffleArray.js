@@ -1,5 +1,5 @@
 // Shuffle array util. From http://stackoverflow.com/a/2450976 
-const shuffle = array => {
+const shuffleArray = array => {
   let currentIndex = array.length
   let temporaryValue, randomIndex
 
@@ -14,4 +14,4 @@ const shuffle = array => {
   return array
 }
 
-export default shuffle
+export default shuffleArray
