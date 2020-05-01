@@ -55,7 +55,6 @@ const Ada = {
         repetitions: this.repetitions(),
         scale: this.currentScale
       }
-      console.log('displayInfoPanel: ', displayInfoPanel)
       if (displayInfoPanel) updateInfoPanel(this.info)
       if (this.a < this.currentScale.length - 1) {
         this.a++

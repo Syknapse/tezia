@@ -4,10 +4,20 @@
   box-sizing: border-box;
 }
 
+html,
+body,
+.container {
+  height: 100%;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
 #control-panel {
   display: flex;
   align-items: center;
-  height: 68px;
   padding: 16px;
   box-shadow: 1px 2px 7px 0px #00000026;
 }
@@ -19,11 +29,14 @@
 
 #info-panel {
   display: none;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-around;
   flex: 1;
+  text-transform: capitalize;
   width: 100%;
   height: 100%;
+  margin-left: 16px;
   user-select: none;
 }
 
@@ -34,20 +47,28 @@
 
 .info-item span:nth-of-type(2) {
   min-width: 36px;
+  height: 30px;
+  text-align: center;
+  line-height: 1.2;
+  letter-spacing: 2px;
   border: 1px solid;
   padding: 4px;
   margin: 8px;
 }
 
-.container {
+.info-item.scale span:nth-of-type(2) {
+  min-width: 216px;
+}
+
+.visuals-container {
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 68px); /* minus height of control panel */
+  flex-grow: 1;
   width: 100%;
 }
 
 @media screen and (min-width: 520px) {
-  .container {
+  .visuals-container {
     flex-direction: row;
   }
 }
