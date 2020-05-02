@@ -1,5 +1,4 @@
-import major from '../_res/scales/major.js'
-import hipsterPastel from '../_res/colors/hipster-pastel.js'
+import { major, hipsterPastel } from '../data/index.js'
 import { applyVisuals, updateInfoPanel, displayInfoPanel, shuffleArray } from '../utils/index.js'
 
 // Current scale is the scale we will be looping over. We get this by selecting a random key from the scales, then randomising the notes of the scale.
