@@ -24,8 +24,8 @@ const Ada = {
     // The number of repetitions loop A does before loop B changes interval
     return this.currentScale.length - this.interval
   },
-  info: {},
-  initialInfo() {
+  info: {}, // Used to update the info panel
+  initialInfo() { // Used to create the info panel
     return {
       'note-A': '',
       'note-B': '',
@@ -50,7 +50,7 @@ const Ada = {
         ...this.info,
         'note-A': note,
         cycle: this.cycle,
-        interval: this.interval + 1, // Add one to get non-zero based musical interval
+        interval: this.interval + 1, // We add one to get non-zero based musical interval
         repetitions: this.repetitions(),
         scale: this.currentScale
       }
