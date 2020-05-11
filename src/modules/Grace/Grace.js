@@ -1,10 +1,10 @@
+import { chromatic } from '../../data/index.js'
 import { applyVisuals, updateInfoPanel, displayInfoPanel, shuffleArray } from '../../utils/index.js'
 
 const Grace = {
   sound: 0,
   octave: 3,
   duration: 1,
-  chromaticScale: ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'],
   NUMBER_OF_NOTES: 7, // Arbitrary number of notes in the scale we create
   repetitions: 7, // Arbitrary number of times the same A scale repeats
   currentScale: [],
@@ -60,7 +60,7 @@ const Grace = {
     return scale.sort(() => 0.5 - Math.random()).slice(0, this.NUMBER_OF_NOTES)
   },
   setCurrentScales() {
-    this.currentScale = this.createRandomScale(this.chromaticScale)
+    this.currentScale = this.createRandomScale(chromatic)
     this.shuffledCurrentScale = shuffleArray([...this.currentScale])
   },
 
