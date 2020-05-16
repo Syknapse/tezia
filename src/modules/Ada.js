@@ -24,6 +24,11 @@ const Ada = {
     // The number of repetitions loop A does before loop B changes interval
     return this.currentScale.length - this.interval
   },
+  scales: major,
+  colors: hipsterPastel,
+  timeoutClearA: null,
+  timeoutClearB: null,
+  TEMPO: 500,
   info: {}, // Used to update the info panel
   initialInfo() { // Used to create the info panel
     return {
@@ -35,11 +40,6 @@ const Ada = {
       scale: this.currentScale
     }
   },
-  timeoutClearA: null,
-  timeoutClearB: null,
-  TEMPO: 500,
-  scales: major,
-  colors: hipsterPastel,
 
   startLoopA() {
     this.timeoutClearA = setTimeout(() => {

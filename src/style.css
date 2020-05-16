@@ -38,6 +38,7 @@ body,
   height: 100%;
   margin-left: 16px;
   user-select: none;
+
 }
 
 .info-item {
@@ -56,7 +57,9 @@ body,
   margin: 8px;
 }
 
-.info-item.scale span:nth-of-type(2) {
+.info-item.scale span:nth-of-type(2),
+.info-item.scale-A span:nth-of-type(2),
+.info-item.scale-B span:nth-of-type(2) {
   min-width: 216px;
 }
 
