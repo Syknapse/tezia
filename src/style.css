@@ -38,6 +38,9 @@ body,
   border: none;
 }
 
+.github {
+  margin-left: auto;
+}
 
 #info-panel {
   display: none;
