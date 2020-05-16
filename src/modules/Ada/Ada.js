@@ -1,5 +1,5 @@
-import { major, hipsterPastel } from '../data/index.js'
-import { applyVisuals, updateInfoPanel, displayInfoPanel, shuffleArray } from '../utils/index.js'
+import { major, hipsterPastel } from '../../data/index.js'
+import { applyVisuals, updateInfoPanel, displayInfoPanel, shuffleArray } from '../../utils/index.js'
 
 // Current scale is the scale we will be looping over. We get this by selecting a random key from the scales, then randomising the notes of the scale.
 // a & b indicate the zero index position of the note to be played in the scale array. It increases by one until we reach the end of the scale.
@@ -24,8 +24,13 @@ const Ada = {
     // The number of repetitions loop A does before loop B changes interval
     return this.currentScale.length - this.interval
   },
-  info: {},
-  initialInfo() {
+  scales: major,
+  colors: hipsterPastel,
+  timeoutClearA: null,
+  timeoutClearB: null,
+  TEMPO: 500,
+  info: {}, // Used to update the info panel
+  initialInfo() { // Used to create the info panel
     return {
       'note-A': '',
       'note-B': '',
@@ -35,11 +40,6 @@ const Ada = {
       scale: this.currentScale
     }
   },
-  timeoutClearA: null,
-  timeoutClearB: null,
-  TEMPO: 500,
-  scales: major,
-  colors: hipsterPastel,
 
   startLoopA() {
     this.timeoutClearA = setTimeout(() => {
@@ -50,7 +50,7 @@ const Ada = {
         ...this.info,
         'note-A': note,
         cycle: this.cycle,
-        interval: this.interval + 1, // Add one to get non-zero based musical interval
+        interval: this.interval + 1, // We add one to get non-zero based musical interval
         repetitions: this.repetitions(),
         scale: this.currentScale
       }
