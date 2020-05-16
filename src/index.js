@@ -1,24 +1,52 @@
 import Ada from './modules/Ada.js'
+import Grace from './modules/Grace/Grace.js'
 import { showInfoPanel, hideInfoPanel } from './utils/index.js'
 
-// Start button
 const button = document.getElementById('start')
-let on = false
+const panelsContainer = document.getElementById('panels-container')
+const modeSelector = document.getElementById('mode-select')
+let selectedMode, on, showInfo
 
-const toggleMusic = () => {
+
+const toggleButton = mode => {
   on = !on
-  on ? Ada.start() : Ada.stop()
+  if (on) {
+    mode.start()
+    modeSelector.disabled = true
+  } else {
+    mode.stop()
+    modeSelector.disabled = false
+  }
 }
 
-button.addEventListener('click', toggleMusic)
-
-// Info panel
-const controlPanel = document.getElementById('control-panel')
-let showInfo = false
-
-const showPanel = () => {
+const showPanel = mode => {
   showInfo = !showInfo
-  showInfo ? showInfoPanel(Ada.initialInfo()) : hideInfoPanel()
+  showInfo ? showInfoPanel(mode.initialInfo()) : hideInfoPanel()
 }
 
-controlPanel.addEventListener('dblclick', showPanel)
+const selectMode = e => {
+  switch (e.currentTarget.value) {
+    case 'Ada':
+      selectedMode = Ada
+      if (showInfo) showInfoPanel(Ada.initialInfo())
+      break
+    case 'Grace':
+      selectedMode = Grace
+      if (showInfo) showInfoPanel(Grace.initialInfo())
+      break
+    default:
+      selectedMode = Ada
+      if (showInfo) showInfoPanel(Ada.initialInfo())
+  }
+}
+
+const init = () => {
+  selectedMode = Ada
+  on = false
+  showInfo = false
+  button.addEventListener('click', () => toggleButton(selectedMode))
+  panelsContainer.addEventListener('dblclick', () => showPanel(selectedMode))
+  modeSelector.addEventListener('change', e => selectMode(e))
+}
+
+init()
