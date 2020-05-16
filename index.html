@@ -18,15 +18,27 @@
 
 <body>
   <div class="container">
-    <div id="control-panel">
-      <button id="start">Start/Stop</button>
+    <section id="panels-container" class="panels">
+      <div id="control-panel">
+        <button id="start">Start/Stop</button>
+        <fieldset>
+          <label for="mode-select">Mode</label>
+          <select name="modes" id="mode-select">
+            <option value="Ada" selected>Ada</option>
+            <option value="Grace">Grace</option>
+          </select>
+        </fieldset>
+        <a class="github" href="https://github.com/Syknapse/tezia" title="JS meets minimalism. View project on GitHub" target="_blank">
+          GitHub
+        </a>
+      </div>
       <div id="info-panel"></div>
-    </div>
+    </section>
   
-    <div class="visuals-container">
-      <section id="loop-a" class="loops"></section>
-      <section id="loop-b" class="loops"></section>
-    </div>
+    <section class="visuals-container">
+      <div id="loop-a" class="loops"></div>
+      <div id="loop-b" class="loops"></div>
+    </section>
   </div>
 
   <script src="src/audiosynth.js"></script>
