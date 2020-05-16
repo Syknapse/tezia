@@ -1,5 +1,4 @@
-import Ada from './modules/Ada.js'
-import Grace from './modules/Grace/Grace.js'
+import { Ada, Grace } from './modules/index.js'
 import { showInfoPanel, hideInfoPanel } from './utils/index.js'
 
 const button = document.getElementById('start')

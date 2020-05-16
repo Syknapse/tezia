@@ -31,7 +31,13 @@ body,
 #start {
   padding: 4px;
   border-radius: 4px;
+  margin-right: 16px;
 }
+
+#control-panel fieldset {
+  border: none;
+}
+
 
 #info-panel {
   display: none;

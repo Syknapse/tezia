@@ -1,5 +1,5 @@
-import { major, hipsterPastel } from '../data/index.js'
-import { applyVisuals, updateInfoPanel, displayInfoPanel, shuffleArray } from '../utils/index.js'
+import { major, hipsterPastel } from '../../data/index.js'
+import { applyVisuals, updateInfoPanel, displayInfoPanel, shuffleArray } from '../../utils/index.js'
 
 // Current scale is the scale we will be looping over. We get this by selecting a random key from the scales, then randomising the notes of the scale.
 // a & b indicate the zero index position of the note to be played in the scale array. It increases by one until we reach the end of the scale.

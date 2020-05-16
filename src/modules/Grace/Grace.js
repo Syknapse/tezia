@@ -33,7 +33,6 @@ const Grace = {
   startLoopA() {
     this.timeoutClearA = setTimeout(() => {
       const note = this.currentScale[this.a]
-      console.log('A+++++: ', note)
       Synth.play(this.sound, note, this.octave, this.duration)
       applyVisuals({ id: 'loop-a', note, colors: this.colors })
       this.info = {
@@ -49,7 +48,6 @@ const Grace = {
       } else {
         this.a = 0
         this.cycle++
-        console.log(`__________ cycle: ${this.cycle} ___________`)
       }
       this.startLoopA()
     }, this.TEMPO)
@@ -58,7 +56,6 @@ const Grace = {
   startLoopB() {
     this.timeoutClearB = setTimeout(() => {
       const note = this.shuffledCurrentScale[this.b]
-      console.log('B------: ', note)
       Synth.play(this.sound, note, this.octave, this.duration)
       applyVisuals({ id: 'loop-b', note, colors: this.colors })
       this.info = {
@@ -74,10 +71,8 @@ const Grace = {
         if (this.cycle > this.repetitions) {
           this.setCurrentScales()
           this.cycle = 1
-          console.log('==========> new current scale: ', this.currentScale)
         } else {
           shuffleArray(this.shuffledCurrentScale)
-          console.log('>>> reshuffle B scale: ', this.shuffledCurrentScale)
         }
       }
       this.startLoopB()
@@ -94,12 +89,9 @@ const Grace = {
   },
 
   start() {
-    console.log('-----init-------')
     this.stop()
     Synth.setVolume(0.40)
     this.setCurrentScales()
-    console.log('currentScale', this.currentScale)
-    console.log('shuffledCurrentScale', this.shuffledCurrentScale)
     this.startLoopA()
     this.timeoutClearC = setTimeout(() => this.startLoopB(), this.TEMPO / 2)
   },
