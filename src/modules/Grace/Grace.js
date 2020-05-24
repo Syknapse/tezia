@@ -7,19 +7,19 @@ const Grace = {
   duration: 1,
   currentScale: [],
   shuffledCurrentScale: [],
-  NUMBER_OF_NOTES: 7, // Arbitrary number of notes in the scale we create
-  a: 0, // position note a
-  b: 0, // position note b
+  NUMBER_OF_NOTES: 7,
+  a: 0,
+  b: 0,
   cycle: 1,
-  repetitions: 7, // Arbitrary number of times the same A scale repeats
+  repetitions: 7,
   scale: chromatic,
   colors: veryPrimary,
   timeoutClearA: null,
   timeoutClearB: null,
   timeoutClearC: null,
   TEMPO: 500,
-  info: {}, // Used to update the info panel
-  initialInfo() { // Used to create the info panel
+  info: {},
+  initialInfo() {
     return {
       'note-A': '',
       'note-B': '',
@@ -79,7 +79,6 @@ const Grace = {
     }, this.TEMPO)
   },
 
-  // Create a new scale by taking the specified number of random notes from the provided scale
   createRandomScale(scale) {
     return scale.sort(() => 0.5 - Math.random()).slice(0, this.NUMBER_OF_NOTES)
   },

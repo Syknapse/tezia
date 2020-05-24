@@ -46,6 +46,7 @@ const init = () => {
   button.addEventListener('click', () => toggleButton(selectedMode))
   panelsContainer.addEventListener('dblclick', () => showPanel(selectedMode))
   modeSelector.addEventListener('change', e => selectMode(e))
+  console.info('** Double click the top control panel to view the info panel and have a peek inside of the patterns. **')
 }
 
 init()
